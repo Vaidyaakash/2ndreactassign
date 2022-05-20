@@ -8,7 +8,6 @@ function App() {
   const [nameInput, setNameInput] = useState();
   const [dept, setDeptInput] = useState();
   const [rate, setRateInput] = useState();
-  const [store, setStore] = useState();
 
   const [data, setData] = useState([]);
 
