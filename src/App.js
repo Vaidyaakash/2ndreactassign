@@ -1,67 +1,76 @@
 import React, { useState } from "react";
-import { v1 as uuidv1 } from "uuid";
-import Result from './Submit'
-import './Style.css'
 
-function App() {
+const Structure = () => {
 
-  const [nameInput, setNameInput] = useState();
-  const [dept, setDeptInput] = useState();
-  const [rate, setRateInput] = useState();
+    const [data, setData] = useState([{
+        usrname: '',
+        dept: '',
+        rate: '',
+    }])
 
-  const [data, setData] = useState([]);
+    const [details, setDetails] = useState([]);
+
+    const nameEvent = (e) => {
+        // const name = e.target.name
+        // const value = e.target.value 
+        setData({ ...data, [e.target.name]: e.target.value })
+        // console.log(data);
+    }
+
+    const Submited = (e) => {
+        e.preventDefault()
+        const newData = { ...data, id: new Date().getTime().toString() }
+        // console.log(newData);
+        setDetails([...details, newData])
+        console.log(details);
 
 
-  const formSubmit = (e) => {
-    e.preventDefault();
-    setData([{ name: nameInput, department: dept, rating: rate, id: uuidv1()},
-      ...data]);
-      setNameInput('');
-      setDeptInput('');
-      setRateInput(0);
-};
-
-
-  return (
-    <>
-      <h1>EMPLOYEE FEEDBACK FORM</h1>
-      <form className="inputs" onSubmit={formSubmit}>
-
-        <span>Name :
-          <input
-            onChange={(e) => setNameInput(e.target.value)}
-            value={nameInput}
-            className="input_width"
-            type='text'
-            required /></span>
-        <span className="width">Department :
-          <input
-            onChange={(e) => setDeptInput(e.target.value)}
-            value={dept}
-            className="input_width"
-            type='text'
-            required /></span>
-        <span>Rating :
-          <input
-            onChange={(e) => setRateInput(e.target.value)}
-            value={rate}
-            className="input_width"
-            type='number' 
-            required
-            max={10}
-            min={0}/></span>
-        <input
-          className="submit"
-          type='submit'
-        />
-      </form>
-      <div className="parent_result">
-        <div className="result">
-           <Result submitData={data} />
-        </div>
-      </div>
-    </>
-  );
+    }
+    return (
+        <>
+            <div className="top__containt"><h1>EMPLOYEE FEEDBACK FORM</h1><hr /></div>
+            <form onSubmit={Submited}>
+                <div className="all__inputs">
+                    <label>Name: </label>
+                    <input
+                        type="text"
+                        onChange={nameEvent}
+                        value={data.usrname}
+                        name='name'
+                    />
+                    <br /><br />
+                    <label className="dept">Department: </label>
+                    <input
+                        type="text"
+                        onChange={nameEvent}
+                        value={data.dept}
+                        name='dept'
+                    /><br /><br />
+                    <label>Rating: </label>
+                    <input
+                        type="number"
+                        onChange={nameEvent}
+                        value={data.rate}
+                        name='rate'
+                    /><br />
+                </div>
+                <div className="button"><input type="Submit" /></div>
+            </form>
+            <div className="result">
+                {
+                    details.map((e) => {
+                        return (
+                            <div className="section">
+                                <p>Name: {e.name}</p>
+                                <p>Department: {e.dept}</p>
+                                <p>Rating: {e.rate}</p>
+                            </div>
+                        )
+                    })
+                }
+            </div>
+        </>
+    )
 }
 
-export default App;
+export default Structure;
